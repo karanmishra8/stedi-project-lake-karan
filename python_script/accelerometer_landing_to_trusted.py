@@ -29,13 +29,13 @@ DEFAULT_DATA_QUALITY_RULESET = """
 """
 
 # Script generated for node accelerometer_landing
-accelerometer_landing_node1758775678663 = glueContext.create_dynamic_frame.from_catalog(database="stedi_project", table_name="accelerometer_landing", transformation_ctx="accelerometer_landing_node1758775678663")
+accelerometer_landing_node1758783333097 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://stedi-lake-house-project-karan/accelerometer/accelerometer_landing/"], "recurse": True}, transformation_ctx="accelerometer_landing_node1758783333097")
 
 # Script generated for node customer_trusted
-customer_trusted_node1758775679391 = glueContext.create_dynamic_frame.from_catalog(database="stedi_project", table_name="cutomer_trusted", transformation_ctx="customer_trusted_node1758775679391")
+customer_trusted_node1758783333539 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://stedi-lake-house-project-karan/cutomer/cutomer_trusted/"], "recurse": True}, transformation_ctx="customer_trusted_node1758783333539")
 
 # Script generated for node Join
-Join_node1758775736749 = Join.apply(frame1=customer_trusted_node1758775679391, frame2=accelerometer_landing_node1758775678663, keys1=["email"], keys2=["user"], transformation_ctx="Join_node1758775736749")
+Join_node1758775736749 = Join.apply(frame1=accelerometer_landing_node1758783333097, frame2=customer_trusted_node1758783333539, keys1=["user"], keys2=["email"], transformation_ctx="Join_node1758775736749")
 
 # Script generated for node SQL Query
 SqlQuery0 = '''

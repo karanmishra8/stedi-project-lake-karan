@@ -27,16 +27,16 @@ DEFAULT_DATA_QUALITY_RULESET = """
 """
 
 # Script generated for node step_landing
-step_landing_node1758776712688 = glueContext.create_dynamic_frame.from_catalog(database="stedi_project", table_name="step_trainer_landing", transformation_ctx="step_landing_node1758776712688")
+step_landing_node1758783518614 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://stedi-lake-house-project-karan/step_trainer/step_trainer_landing/"], "recurse": True}, transformation_ctx="step_landing_node1758783518614")
 
-# Script generated for node customer_curated
-customer_curated_node1758776713599 = glueContext.create_dynamic_frame.from_catalog(database="stedi_project", table_name="customer_curated", transformation_ctx="customer_curated_node1758776713599")
+# Script generated for node cus_curated
+cus_curated_node1758783519199 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://stedi-lake-house-project-karan/cutomer/customer_curated/"], "recurse": True}, transformation_ctx="cus_curated_node1758783519199")
 
 # Script generated for node SQL Query
 SqlQuery0 = '''
 select s.* from s join c on c.serialnumber = s.SerialNumber
 '''
-SQLQuery_node1758776752908 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"c":customer_curated_node1758776713599, "s":step_landing_node1758776712688}, transformation_ctx = "SQLQuery_node1758776752908")
+SQLQuery_node1758776752908 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"s":step_landing_node1758783518614, "c":cus_curated_node1758783519199}, transformation_ctx = "SQLQuery_node1758776752908")
 
 # Script generated for node step_trainer_trusted
 EvaluateDataQuality().process_rows(frame=SQLQuery_node1758776752908, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1758776707147", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})
